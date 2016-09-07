@@ -1,7 +1,7 @@
 package com.pattern.template;
 
 public abstract class Assembler<T> {
-	public void assemble(T product) {
+	public final void assemble(T product) {
 		if(validate(product)) {
 			binding(product);
 			execute(product);
