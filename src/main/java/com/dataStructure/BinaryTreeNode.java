@@ -16,10 +16,6 @@ public class BinaryTreeNode<T extends Comparable<T>> {
 		return level;
 	}
 
-	public void setLevel(int level) {
-		this.level = level;
-	}
-
 	public T getValue() {
 		return value;
 	}
@@ -50,6 +46,13 @@ public class BinaryTreeNode<T extends Comparable<T>> {
 
 	public void setParent(BinaryTreeNode<T> parent) {
 		this.parent = parent;
+		updateLevel(this);
+	}
+
+	private void updateLevel(BinaryTreeNode<T> node) {
+		node.level = node.parent.getLevel() + 1;
+		if(node.leftChild != null) updateLevel(node.getLeftChild());
+		if(node.rightChild != null) updateLevel(node.getRightChild());
 	}
 
 }
