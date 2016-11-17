@@ -25,7 +25,7 @@ public class BinarySearchTree<T extends Comparable<T>> implements Tree<T> {
 		List<BinaryTreeNode> sortedByLevelList = inorderTraversal.keySet().stream()
 			.sorted(comparing(BinaryTreeNode::getLevel))
 			.collect(Collectors.toList());
-		return sortedByLevelList.get(sortedByLevelList.size()-1).getLevel();
+		return sortedByLevelList.get(sortedByLevelList.size() - 1).getLevel();
 	}
 
 	@Override
@@ -77,34 +77,34 @@ public class BinarySearchTree<T extends Comparable<T>> implements Tree<T> {
 
 	@Override
 	public void delete(T key) {
-		if(key == null) {
+		if (key == null) {
 			return;
 		}
 
 		BinaryTreeNode<T> node = find(key);
-		if(node == null) {
+		if (node == null) {
 			return;
 		}
 
-		if(isExternalNode(node)) {
+		if (isExternalNode(node)) {
 			BinaryTreeNode<T> parent = node.getParent();
 			BinaryTreeNode<T> newChild = null;
-			if(parent.getLeftChild() == node) {
+			if (parent.getLeftChild() == node) {
 				newChild = findTempChild(node);
 				parent.setLeftChild(newChild);
-			}else if(parent.getRightChild() == node) {
+			} else if (parent.getRightChild() == node) {
 				newChild = findTempChild(node);
 				parent.setRightChild(newChild);
 			}
-			if(newChild != null) {
+			if (newChild != null) {
 				newChild.setParent(node.getParent());
 			}
-		}else {
-			Map<BinaryTreeNode<T>,T> treeNodeMap = inorderTraversal(root, Maps.newLinkedHashMap());
+		} else {
+			Map<BinaryTreeNode<T>, T> treeNodeMap = inorderTraversal(root, Maps.newLinkedHashMap());
 			Iterator<BinaryTreeNode<T>> it = treeNodeMap.keySet().iterator();
 			BinaryTreeNode<T> newChild = null;
 			while (it.hasNext()) {
-				if(it.next() == node) {
+				if (it.next() == node) {
 					newChild = it.next();
 				}
 			}
@@ -113,7 +113,7 @@ public class BinarySearchTree<T extends Comparable<T>> implements Tree<T> {
 			BinaryTreeNode<T> originRightChild = node.getRightChild();
 			node.getParent().setRightChild(newChild);
 			newChild.setParent(node.getParent());
-			if(originRightChild != newChild) {
+			if (originRightChild != newChild) {
 				originRightChild.setLeftChild(newChild.getRightChild());
 				newChild.getRightChild().setParent(originRightChild);
 			}
@@ -125,9 +125,9 @@ public class BinarySearchTree<T extends Comparable<T>> implements Tree<T> {
 	}
 
 	private BinaryTreeNode<T> findTempChild(BinaryTreeNode<T> node) {
-		if(node.getLeftChild() != null) {
+		if (node.getLeftChild() != null) {
 			return node.getLeftChild();
-		}else if(node.getRightChild() != null) {
+		} else if (node.getRightChild() != null) {
 			return node.getRightChild();
 		}
 		return null;
@@ -143,14 +143,15 @@ public class BinarySearchTree<T extends Comparable<T>> implements Tree<T> {
 
 	private BinaryTreeNode<T> find(T key, BinaryTreeNode<T> node) {
 		int result = node.getValue().compareTo(key);
-		if(result == 0) return node;
-		else if(result > 0) {
-			if(node.getLeftChild() == null) {
+		if (result == 0)
+			return node;
+		else if (result > 0) {
+			if (node.getLeftChild() == null) {
 				return null;
 			}
 			return find(key, node.getLeftChild());
-		}else {
-			if(node.getRightChild() == null) {
+		} else {
+			if (node.getRightChild() == null) {
 				return null;
 			}
 			return find(key, node.getRightChild());
@@ -185,7 +186,7 @@ public class BinarySearchTree<T extends Comparable<T>> implements Tree<T> {
 		if (traversable(map, leftChild)) {
 			postorderTraversal(leftChild, map);
 		} else {
-			if(traversable(map, rightChild)) {
+			if (traversable(map, rightChild)) {
 				postorderTraversal(rightChild, map);
 			}
 
@@ -203,50 +204,50 @@ public class BinarySearchTree<T extends Comparable<T>> implements Tree<T> {
 	}
 
 	private Map<BinaryTreeNode<T>, T> preorderTraversal(BinaryTreeNode<T> node, Map<BinaryTreeNode<T>, T> map) {
-		if(nodeCount == map.size()) {
+		if (nodeCount == map.size()) {
 			return map;
 		}
 
 		BinaryTreeNode<T> parent = node.getParent();
 		BinaryTreeNode<T> leftChild = node.getLeftChild();
 		BinaryTreeNode<T> rightChild = node.getRightChild();
-		if(!map.containsKey(node)) {
+		if (!map.containsKey(node)) {
 			map.put(node, node.getValue());
-			if(traversable(map, leftChild)) {
-				preorderTraversal(leftChild,map);
-			}else if(traversable(map, rightChild)) {
-				preorderTraversal(rightChild,map);
-			}else {
-				preorderTraversal(parent,map);
+			if (traversable(map, leftChild)) {
+				preorderTraversal(leftChild, map);
+			} else if (traversable(map, rightChild)) {
+				preorderTraversal(rightChild, map);
+			} else {
+				preorderTraversal(parent, map);
 			}
 		} else {
-			if(traversable(map, rightChild)) {
-				preorderTraversal(rightChild,map);
+			if (traversable(map, rightChild)) {
+				preorderTraversal(rightChild, map);
 			} else {
-				preorderTraversal(parent,map);
+				preorderTraversal(parent, map);
 			}
 		}
 		return map;
 	}
 
 	private Map<BinaryTreeNode<T>, T> inorderTraversal(BinaryTreeNode<T> node, Map<BinaryTreeNode<T>, T> map) {
-		if(nodeCount == map.size()) {
+		if (nodeCount == map.size()) {
 			return map;
 		}
 
 		BinaryTreeNode<T> parent = node.getParent();
 		BinaryTreeNode<T> leftChild = node.getLeftChild();
 		BinaryTreeNode<T> rightChild = node.getRightChild();
-		if(traversable(map,leftChild)) {
+		if (traversable(map, leftChild)) {
 			inorderTraversal(leftChild, map);
-		}else {
-			if(!map.containsKey(node)) {
+		} else {
+			if (!map.containsKey(node)) {
 				map.put(node, node.getValue());
 			}
-			if(traversable(map, rightChild)) {
-				inorderTraversal(rightChild,map);
-			}else {
-				inorderTraversal(parent,map);
+			if (traversable(map, rightChild)) {
+				inorderTraversal(rightChild, map);
+			} else {
+				inorderTraversal(parent, map);
 			}
 		}
 		return map;
