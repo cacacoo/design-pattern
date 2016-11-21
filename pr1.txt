@@ -1,0 +1,38 @@
+package t;
+
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+ 
+/* Name of the class has to be "Main" only if the class is public. */
+class tt
+{
+	public static void main (String[] args) throws java.lang.Exception
+	{
+		int[] chkArr = new int[5001];
+		int totalSum = 0;
+		for(int i =1; ; i++){
+			int sum = 0;
+			int num = i;
+ 
+			while(num > 0){
+				sum += num % 10;
+				num = num / 10;			
+			}
+			sum += i;
+			if(sum <= 5000)
+				chkArr[sum] = 1;
+			else
+				break;
+		}
+		
+		for(int j =1; j <= 5000; j++){
+			if(chkArr[j] == 0){
+				totalSum += j;
+			}
+		}
+		
+		System.out.println("totalSum: " + totalSum);
+		
+ 	}
+}
